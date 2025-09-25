@@ -9,6 +9,7 @@
 #statusMsg{
 	text-align:center;
 	font-family:"Permanant Marker", cursive;
+	display:none;
 }
 .gameWrapper {
 	border: 5px groove;

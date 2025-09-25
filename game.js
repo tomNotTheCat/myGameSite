@@ -8,11 +8,16 @@ class Game{
 	 this.currPlayer="X";
 	 this.moveHistory=[]; 
 	 this.width=0;
+	 this.running=false;
  }
  init(num){
 	 this.goal=num;
+	 this.currPlayer="X";
+	 this.moveHistory=[]; 
+	 this.running=true;
 	 const cells=document.querySelectorAll('.cell');
 	 cells.forEach(cell=>cell.addEventListener('click',()=>{
+		 if(this.running){
 		 if(cell.textContent===""){
 			cell.textContent=this.currPlayer;
 			const xyString= cell.getAttribute('coordinate');
@@ -22,8 +27,8 @@ class Game{
 			if(this.currPlayer==="X"){
 				this.currPlayer="O";
 				}else {this.currPlayer="X";}
-			}
-	}));
+		 }}
+		 }));
  }
  checkWinner(xy){
 	 vertical=1;
@@ -115,7 +120,7 @@ function nextCell(next, dir){
 			next[0]--;
 			next[1]--;
 			const cell=document.querySelector(`[coordinate="${next}"]`);
-			if(cell.textContent===game.currPlayer){leftDiagonal++;}
+			if(cell.textContent===game.currPlayer){leftDiagonal++;}else{break;}
 			}
 			break;
 		case("up"):
@@ -123,7 +128,7 @@ function nextCell(next, dir){
 			while(next[1]>1){
 			next[1]--;
 			const cell=document.querySelector(`[coordinate="${next}"]`);
-			if(cell.textContent===game.currPlayer){vertical++;}
+			if(cell.textContent===game.currPlayer){vertical++;}else{break;}
 			}
 			break;
 		case("rightUp"):
@@ -132,7 +137,7 @@ function nextCell(next, dir){
 			next[0]++;
 			next[1]--;
 			const cell=document.querySelector(`[coordinate="${next}"]`);
-			if(cell.textContent===game.currPlayer){rightDiagonal++;}
+			if(cell.textContent===game.currPlayer){rightDiagonal++;}else{break;}
 			}
 			break;
 		case("left"):
@@ -140,7 +145,7 @@ function nextCell(next, dir){
 			while(next[0]>1){
 			next[0]--;
 			const cell=document.querySelector(`[coordinate="${next}"]`);
-			if(cell.textContent===game.currPlayer){horizontal++;}
+			if(cell.textContent===game.currPlayer){horizontal++;}else{break;}
 			}
 			break;
 		case("right"):
@@ -148,7 +153,7 @@ function nextCell(next, dir){
 			while(next[0]<game.width){
 			next[0]++;
 			const cell=document.querySelector(`[coordinate="${next}"]`);
-			if(cell.textContent===game.currPlayer){horizontal++;}
+			if(cell.textContent===game.currPlayer){horizontal++;}else{break;}
 			}
 			break;
 		case("leftDown"):
@@ -157,7 +162,7 @@ function nextCell(next, dir){
 			next[0]--;
 			next[1]++;
 			const cell=document.querySelector(`[coordinate="${next}"]`);
-			if(cell.textContent===game.currPlayer){rightDiagonal++;}
+			if(cell.textContent===game.currPlayer){rightDiagonal++;}else{break;}
 			}
 			break;
 		case("down"):
@@ -165,7 +170,7 @@ function nextCell(next, dir){
 			while(next[1]<game.width){
 			next[1]++;
 			const cell=document.querySelector(`[coordinate="${next}"]`);
-			if(cell.textContent===game.currPlayer){vertical++;}
+			if(cell.textContent===game.currPlayer){vertical++;}else{break;}
 			}
 			break;
 		case("rightDown"):
@@ -174,15 +179,18 @@ function nextCell(next, dir){
 			next[0]++;
 			next[1]++;
 			const cell=document.querySelector(`[coordinate="${next}"]`);
-			if(cell.textContent===game.currPlayer){leftDiagonal++;}
+			if(cell.textContent===game.currPlayer){leftDiagonal++;}else{break;}
 			}
 			break;
 	}
 }
 function showWinner(){
-	const msg=document.createElement('h2');
-	msg.setAttribute('id','statusMsg');
+	console.log("vertical: "+vertical);
+	 console.log("horizontal: "+horizontal);
+	 console.log("leftDiagonal: "+leftDiagonal); 
+	console.log("rightDiagonal: "+rightDiagonal);
+	const msg=document.getElementById('statusMsg');
 	msg.textContent=`${game.currPlayer} won!`;
-	body.appendChild(msg);
+	msg.style.display='block';
 }
 const game= new Game();
