@@ -17,18 +17,21 @@ function tic(){
 	const title=document.getElementById('title');
 	title.textContent="Tic Tac Toe";
 	makeCells(3);
+	game.init(3);
 }
 function con4(){
 	restart();
 	const title=document.getElementById('title');
 	title.textContent="Connect 4";
 	makeCells(6);
+	game.init(4);
 }
 function con5(){
 	restart();
 	const title=document.getElementById('title');
 	title.textContent="Connect 5";
 	makeCells(12);
+	game.init(5);
 }
 function restart(){
 	const old =document.getElementsByClassName('gameWrapper');
@@ -49,10 +52,11 @@ function makeCells(num){
 		const cell=document.createElement('div');
 		cell.textContent="";
 		cell.setAttribute('class','cell');
-		cell.setAttribute('coordinate',[i,j]);
+		cell.setAttribute('coordinate',[j,i]);
 		wrapper[0].appendChild(cell);
 		}
 	}
+	game.width=num;
 }
 const body= document.body;
 document.addEventListener('DOMContentLoaded', createOptions);
