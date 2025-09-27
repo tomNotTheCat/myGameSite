@@ -33,14 +33,24 @@ function con5(){
 	makeCells(12);
 	game.init(5);
 }
-function restart(){
+function restart(num){
+	const msg=document.getElementById('statusMsg');
+	msg.style.display='none';
 	const old =document.getElementsByClassName('gameWrapper');
 	if(old[0]){body.removeChild(old[0]);}
 	const newGame= document.createElement('div');
 	newGame.setAttribute('class','gameWrapper');
 	body.appendChild(newGame);
+	if(num>=3){
+	makeCells(num);
+	game.init(num);
+	}
 }
 function makeCells(num){
+	const undoBtn=document.getElementById("undoBtn");
+	undoBtn.style.display='block';
+	const resBtn=document.getElementById("resBtn");
+	resBtn.style.display='block';
 	const wrapper =document.getElementsByClassName('gameWrapper');
 	wrapper[0].style.gridTemplateColumns=(`repeat(${num}, auto)`);
 	wrapper[0].style.width=`${num*50}px`;
@@ -60,3 +70,8 @@ function makeCells(num){
 }
 const body= document.body;
 document.addEventListener('DOMContentLoaded', createOptions);
+const game= new Game();
+const undoBtn=document.getElementById("undoBtn");
+undoBtn.addEventListener('click',game.undo);
+const resBtn=document.getElementById("resBtn");
+resBtn.addEventListener('click',()=>{restart(game.width)});

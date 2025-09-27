@@ -9,6 +9,7 @@ class Game{
 	 this.moveHistory=[]; 
 	 this.width=0;
 	 this.running=false;
+	 this.undo =this.undo.bind(this);
  }
  init(num){
 	 this.goal=num;
@@ -24,9 +25,7 @@ class Game{
 			const xy=xyString.split(",").map(Number);
 			this.moveHistory.push(xy);
 			this.checkWinner(xy);
-			if(this.currPlayer==="X"){
-				this.currPlayer="O";
-				}else {this.currPlayer="X";}
+			this.changePlayer();
 		 }}
 		 }));
  }
@@ -104,11 +103,18 @@ class Game{
 		});
 		return;
  }
- redo(){
-	 
+ changePlayer(){
+	 if(this.currPlayer==="X"){
+			this.currPlayer="O";
+		}else {this.currPlayer="X";}
  }
- restart(){
-	 
+ undo(){
+	 if(this.moveHistory.length>=1){
+	 const lastMove=this.moveHistory.pop();
+	 const cell=document.querySelector(`[coordinate="${lastMove}"]`);
+	 cell.textContent="";
+	 this.changePlayer();
+	 }
  }
 }
 
@@ -192,5 +198,5 @@ function showWinner(){
 	const msg=document.getElementById('statusMsg');
 	msg.textContent=`${game.currPlayer} won!`;
 	msg.style.display='block';
+	game.running=false;
 }
-const game= new Game();
